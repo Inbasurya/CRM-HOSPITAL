@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediConnect Hospital - Excellence in Healthcare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-pattern {
+            background-color: #f0f9ff;
+            background-image: radial-gradient(#bae6fd 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <nav class="bg-white shadow-sm sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-teal-600 rounded-lg flex items-center justify-center text-white shadow-md">
+                    <i class="fa-solid fa-hospital text-xl"></i>
+                </div>
+                <span class="font-bold text-2xl tracking-tight text-slate-800">MediConnect</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="/doctor" class="hidden md:flex items-center gap-2 text-slate-500 hover:text-teal-600 font-medium transition">
+                    <i class="fa-solid fa-user-doctor"></i> Doctor Login
+                </a>
+                <a href="/patient" class="bg-teal-600 text-white px-6 py-2.5 rounded-full font-bold shadow-lg hover:bg-teal-700 transition transform hover:-translate-y-0.5">
+                    Book Appointment
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-pattern py-20 lg:py-32 px-6 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-12">
+            <div class="lg:w-1/2 text-center lg:text-left z-10">
+                <div class="inline-block bg-teal-100 text-teal-800 text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wide">
+                    24/7 Care Available
+                </div>
+                <h1 class="text-5xl lg:text-7xl font-extrabold text-slate-900 leading-tight mb-6">
+                    Expert Healthcare <br>
+                    <span class="text-teal-600">Simplified.</span>
+                </h1>
+                <p class="text-lg text-slate-600 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                    Experience world-class medical treatment with immediate appointment booking. No waiting lines, just premium care.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <a href="/patient" class="bg-teal-600 text-white px-8 py-4 rounded-xl font-bold shadow-xl hover:bg-teal-700 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-calendar-check"></i> Find a Doctor
+                    </a>
+                    <a href="#services" class="bg-white text-slate-700 border border-slate-200 px-8 py-4 rounded-xl font-bold hover:bg-slate-50 transition flex items-center justify-center">
+                        Our Services
+                    </a>
+                </div>
+            </div>
+            
+            <div class="lg:w-1/2 flex justify-center z-10">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-teal-500 blur-[100px] opacity-20 rounded-full"></div>
+                    <i class="fa-solid fa-user-doctor text-9xl text-teal-600/90 relative z-10 drop-shadow-2xl text-[12rem]"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-teal-700 py-12 text-white">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="text-4xl font-bold mb-1">50+</div>
+                <div class="text-teal-200 text-sm uppercase font-bold">Specialists</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold mb-1">10k+</div>
+                <div class="text-teal-200 text-sm uppercase font-bold">Happy Patients</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold mb-1">24/7</div>
+                <div class="text-teal-200 text-sm uppercase font-bold">Support</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold mb-1">4.9</div>
+                <div class="text-teal-200 text-sm uppercase font-bold">User Rating</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-24 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Our Medical Specialties</h2>
+                <p class="text-slate-500 max-w-2xl mx-auto">We provide comprehensive care across a wide range of medical fields using state-of-the-art technology.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300 group">
+                    <div class="w-14 h-14 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-red-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-800">Cardiology</h3>
+                    <p class="text-slate-500 leading-relaxed">Comprehensive heart care including diagnostics, surgery, and rehabilitation.</p>
+                </div>
+
+                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300 group">
+                    <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-stethoscope"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-800">General Checkup</h3>
+                    <p class="text-slate-500 leading-relaxed">Routine health screenings, vaccinations, and preventive care for all ages.</p>
+                </div>
+
+                <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300 group">
+                    <div class="w-14 h-14 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-purple-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-800">Neurology</h3>
+                    <p class="text-slate-500 leading-relaxed">Advanced diagnosis and treatment for disorders of the nervous system.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2 text-white">
+                <i class="fa-solid fa-hospital text-xl"></i>
+                <span class="font-bold text-lg">MediConnect</span>
+            </div>
+            <div class="text-sm">
+                &copy; 2023 MediConnect Hospital. All rights reserved.
+            </div>
+            <div class="flex gap-4 text-xl">
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

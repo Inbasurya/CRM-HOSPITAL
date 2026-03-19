@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 min-h-screen">
+    
+    <nav class="bg-white shadow-sm h-16 flex items-center justify-between px-6 lg:px-12">
+        <div class="flex items-center gap-2 text-teal-700">
+            <i class="fa-solid fa-hospital text-2xl"></i>
+            <span class="font-bold text-xl tracking-tight">MediConnect</span>
+        </div>
+        <a href="/" class="text-slate-500 hover:text-teal-600 transition"><i class="fa-solid fa-arrow-left mr-1"></i> Back</a>
+    </nav>
+
+    <div class="max-w-xl mx-auto mt-10 p-6">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+            <div class="bg-teal-600 p-6 text-center">
+                <h2 class="text-2xl font-bold text-white">Book Appointment</h2>
+                <p class="text-teal-100 text-sm mt-1">We will send a confirmation via SMS.</p>
+            </div>
+
+            <form id="bookingForm" onsubmit="book(event)" class="p-8 space-y-5">
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase">Patient Name</label>
+                    <input id="name" required class="w-full border border-slate-300 p-3 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase">Mobile Number (for SMS)</label>
+                    <input id="phone" required class="w-full border border-slate-300 p-3 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none" placeholder="+1234567890">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase">Preferred Time</label>
+                    <input type="datetime-local" id="time" required class="w-full border border-slate-300 p-3 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase">Symptoms</label>
+                    <textarea id="symptoms" required rows="3" class="w-full border border-slate-300 p-3 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-lg font-bold hover:bg-slate-800 transition">
+                    Confirm Booking
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Set min date to current time
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('time').min = now.toISOString().slice(0,16);
+
+        async function book(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.innerText = "Sending SMS...";
+            btn.disabled = true;
+
+            const res = await fetch('/api/appointments', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    name: document.getElementById('name').value,
+                    phone: document.getElementById('phone').value,
+                    time: document.getElementById('time').value,
+                    symptoms: document.getElementById('symptoms').value
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                alert("✅ Booking Confirmed! Please check your phone for an SMS.");
+                window.location.href = "/";
+            } else {
+                alert("Error booking appointment");
+                btn.innerText = "Confirm Booking";
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

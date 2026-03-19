@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Portal - MediConnect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 font-sans">
+
+<div id="auth-screen" class="min-h-screen flex items-center justify-center p-4 bg-[url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')] bg-cover bg-center">
+    <div class="absolute inset-0 bg-teal-900/60 backdrop-blur-sm"></div>
+    
+    <div class="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div class="bg-teal-600 p-6 text-center">
+            <h1 class="text-2xl font-bold text-white">MediConnect MD</h1>
+            <p class="text-teal-100 text-sm">Secure Medical Portal</p>
+        </div>
+
+        <div class="p-8">
+            <form id="loginForm" onsubmit="login(event)" class="space-y-4">
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase">User ID</label>
+                    <input id="l_id" placeholder="Enter Doctor ID" class="w-full border border-slate-300 p-3 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none" required>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase">Password</label>
+                    <input type="password" id="l_pass" placeholder="••••••••" class="w-full border border-slate-300 p-3 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none" required>
+                </div>
+                <button class="w-full bg-teal-600 text-white py-3 rounded-lg font-bold hover:bg-teal-700 transition shadow-md">
+                    Secure Login
+                </button>
+                <div class="text-center pt-4">
+                    <button type="button" onclick="toggleAuth()" class="text-teal-600 text-sm font-bold hover:underline">Register New Doctor</button>
+                </div>
+            </form>
+
+            <form id="signupForm" onsubmit="signup(event)" class="space-y-3 hidden">
+                <h2 class="text-lg font-bold text-slate-700 text-center">Add New Doctor</h2>
+                <div class="grid grid-cols-2 gap-2">
+                    <input id="s_name" placeholder="Full Name" class="w-full border p-2.5 rounded outline-none" required>
+                    <input id="s_spec" placeholder="Specialty" class="w-full border p-2.5 rounded outline-none" required>
+                </div>
+                <input id="s_id" placeholder="Create User ID" class="w-full border p-2.5 rounded outline-none" required>
+                <input type="password" id="s_pass" placeholder="Set Password" class="w-full border p-2.5 rounded outline-none" required>
+                <button class="w-full bg-slate-800 text-white py-3 rounded-lg font-bold hover:bg-slate-900 transition">Create Account</button>
+                <button type="button" onclick="toggleAuth()" class="w-full text-slate-500 text-sm py-2">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="dashboard" class="hidden min-h-screen flex flex-col">
+    <nav class="bg-white shadow-sm h-16 flex justify-between items-center px-6 lg:px-12 sticky top-0 z-40">
+        <div class="flex items-center gap-2 text-teal-700">
+            <i class="fa-solid fa-notes-medical text-2xl"></i>
+            <span class="font-bold text-xl">MediConnect MD</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <span id="doc-name" class="font-bold text-slate-700"></span>
+            <button onclick="logout()" class="text-red-500 text-sm font-bold hover:underline">Logout</button>
+        </div>
+    </nav>
+
+    <main class="flex-1 p-6 lg:p-12 max-w-7xl mx-auto w-full">
+        <header class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold text-slate-800">Patient Queue</h2>
+            <button onclick="load()" class="text-teal-600 hover:text-teal-800"><i class="fa-solid fa-rotate mr-1"></i> Refresh</button>
+        </header>
+
+        <div class="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-slate-50 text-slate-500 uppercase text-xs font-bold border-b">
+                    <tr>
+                        <th class="p-4">#</th>
+                        <th class="p-4">Patient</th>
+                        <th class="p-4">Contact</th>
+                        <th class="p-4">Time</th>
+                        <th class="p-4">Symptoms</th>
+                        <th class="p-4 text-center">Quick Action</th>
+                    </tr>
+                </thead>
+                <tbody id="list" class="divide-y divide-slate-100"></tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<div id="msgModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 m-4 animate-fade-in-up">
+        <div class="flex justify-between items-center mb-4 border-b pb-4">
+            <h3 class="text-lg font-bold text-slate-800">Send Message</h3>
+            <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+        </div>
+        
+        <input type="hidden" id="msg-id">
+        <p class="text-sm text-slate-500 mb-2">To: <span id="msg-recipient" class="font-bold text-slate-700"></span></p>
+        
+        <textarea id="msg-body" rows="4" class="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-teal-500 outline-none mb-4" placeholder="Type your custom confirmation or message here..."></textarea>
+        
+        <button onclick="sendMsg()" class="w-full bg-teal-600 text-white py-3 rounded-lg font-bold hover:bg-teal-700 transition">
+            <i class="fa-regular fa-paper-plane mr-2"></i> Send SMS
+        </button>
+    </div>
+</div>
+
+<script>
+    // --- Auth Logic ---
+    function toggleAuth() {
+        document.getElementById('loginForm').classList.toggle('hidden');
+        document.getElementById('signupForm').classList.toggle('hidden');
+    }
+
+    async function signup(e) {
+        e.preventDefault();
+        const res = await fetch('/api/doctor/signup', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                name: document.getElementById('s_name').value,
+                specialty: document.getElementById('s_spec').value,
+                doctor_id: document.getElementById('s_id').value,
+                password: document.getElementById('s_pass').value
+            })
+        });
+        const data = await res.json();
+        if(data.success) {
+            alert(`✅ Registered!\nSerial Number: ${data.serial_number}\nUser ID: ${document.getElementById('s_id').value}`);
+            toggleAuth();
+        } else alert("Error: User ID likely exists.");
+    }
+
+    async function login(e) {
+        e.preventDefault();
+        const res = await fetch('/api/doctor/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                doctor_id: document.getElementById('l_id').value,
+                password: document.getElementById('l_pass').value
+            })
+        });
+        const d = await res.json();
+        if(d.success) {
+            document.getElementById('doc-name').innerText = "Dr. " + d.name;
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            load();
+        } else alert("Invalid Credentials");
+    }
+
+    async function logout() {
+        await fetch('/api/doctor/logout', {method:'POST'});
+        location.reload();
+    }
+
+    // --- Dashboard Logic ---
+    async function load() {
+        const r = await fetch('/api/appointments');
+        const data = await r.json();
+        const list = document.getElementById('list');
+        list.innerHTML = '';
+        data.forEach(a => {
+            list.innerHTML += `
+            <tr class="hover:bg-slate-50 transition">
+                <td class="p-4 text-slate-400 text-xs">#${a.id}</td>
+                <td class="p-4 font-bold text-slate-700">${a.patient_name}</td>
+                <td class="p-4 text-sm">${a.phone_number}</td>
+                <td class="p-4 text-sm font-medium text-teal-600">${a.appointment_time.replace('T', ' ')}</td>
+                <td class="p-4 text-sm text-slate-500 truncate max-w-xs">${a.symptoms}</td>
+                <td class="p-4 text-center">
+                    <button onclick="openMsg('${a.id}', '${a.patient_name}')" class="bg-slate-800 text-white px-3 py-1.5 rounded text-xs hover:bg-slate-700 transition">
+                        <i class="fa-solid fa-comment-sms"></i> Message
+                    </button>
+                </td>
+            </tr>`;
+        });
+    }
+
+    // --- Messaging Logic ---
+    function openMsg(id, name) {
+        document.getElementById('msg-id').value = id;
+        document.getElementById('msg-recipient').innerText = name;
+        document.getElementById('msg-body').value = "Your appointment is confirmed. Please arrive 10 minutes early."; // Default template
+        document.getElementById('msgModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('msgModal').classList.add('hidden');
+    }
+
+    async function sendMsg() {
+        const id = document.getElementById('msg-id').value;
+        const msg = document.getElementById('msg-body').value;
+        if(!msg) return alert("Please type a message.");
+
+        const res = await fetch('/api/send_notification', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ id: id, message: msg })
+        });
+        
+        const data = await res.json();
+        if(data.success) {
+            alert("SMS Sent Successfully!");
+            closeModal();
+        } else {
+            alert("Failed to send SMS.");
+        }
+    }
+
+    // Session Check
+    fetch('/api/check_session').then(r=>r.json()).then(d=>{
+        if(d.logged_in) {
+            document.getElementById('doc-name').innerText = "Dr. " + d.name;
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            load();
+        }
+    });
+</script>
+</body>
+</html>
